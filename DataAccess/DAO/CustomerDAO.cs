@@ -134,8 +134,6 @@ namespace DataAccess.DAO
                 if (_customer != null)
                 {
                     using var context = new FuminiHotelManagementContext();
-                    //context.Customers.Remove(_customer);
-                    //context.SaveChanges();
                     _customer.CustomerStatus = 0;
                     context.Customers.Update(_customer);
                     context.SaveChanges();

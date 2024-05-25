@@ -82,7 +82,7 @@
                             <Button Content="Search By Name: " x:Name="searchByNameButton" Height="30" Width="100" Margin="100,0,20,0" Click="searchByNameCustomerButton_Click" />
                             <TextBox x:Name="searchByNameTextBox" Width="220" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" />
                         </WrapPanel>
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,20,0,0">Customer Status: 1: Active ; 2 Deleted</TextBlock>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,20,0,0">Customer Status: 0: Deleted; 1: Active </TextBlock>
                     </StackPanel>
 
                     <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" x:Name="listCustomer">
@@ -174,7 +174,7 @@
                             <TextBlock Text="Filter By Room Type: "  Margin="100,6,20,0" />
                             <ComboBox x:Name="FilterByRoomTypeComboBox" Width="220" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" SelectionChanged="FilterByRoomTypeComboBox_SelectionChanged" />
                         </WrapPanel>
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,20,0,0">Room Status: 1: Active ; 2 Deleted</TextBlock>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,20,0,0">Room Status: 0: Deleted; 1: Active</TextBlock>
                     </StackPanel>
 
                     <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" x:Name="listRoomInformation">

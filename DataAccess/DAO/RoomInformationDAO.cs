@@ -122,11 +122,13 @@ namespace DataAccess.DAO
         {
             try
             {
-                RoomInformation _product = GetRoomInformationByRoomID(id);
-                if (_product != null)
+                RoomInformation _room = GetRoomInformationByRoomID(id);
+                if (_room != null)
                 {
                     using var context = new FuminiHotelManagementContext();
-                    context.RoomInformations.Remove(_product);
+                    _room.RoomStatus = 0;
+                    context.RoomInformations.Update(_room);
+                    context.SaveChanges();
                     context.SaveChanges();
                 }
                 else
