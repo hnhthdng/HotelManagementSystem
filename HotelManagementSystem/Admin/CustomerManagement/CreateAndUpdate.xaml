@@ -1,0 +1,53 @@
+﻿<Window x:Class="HotelManagementSystem.Admin.CustomerManagement.CreateAndUpdate"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HotelManagementSystem.Admin.CustomerManagement"
+        mc:Ignorable="d"
+         ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Title="CreateAndUpdate" Height="350" Width="450" Loaded="Window_Loaded">
+    <Grid>
+        <StackPanel>
+            <WrapPanel x:Name="CustomerIDWrapPanel" Margin="10,10,0,20" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <TextBlock FontSize="15" Margin="0,0,0,0" FontFamily="Bahnschrift Condensed">Customer ID:</TextBlock>
+                <TextBox x:Name="customerIDTextBox" FontFamily="Bahnschrift Condensed" FontSize="15" 
+                 Width="270" IsReadOnly="True" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                 VerticalContentAlignment="Center" Margin="50,0,0,0"/>
+            </WrapPanel>
+            <WrapPanel Margin="10,0,0,20">
+                <TextBlock FontSize="15" Margin="0,0,0,0" FontFamily="Bahnschrift Condensed">Customer Full Name:</TextBlock>
+                <TextBox x:Name="customerFullNameTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+                 VerticalAlignment="Center" Width="270" HorizontalAlignment="Left"
+                 RenderTransformOrigin="0.608,0.584" Margin="9,0,0,0"/>
+            </WrapPanel>
+            <WrapPanel Margin="10,0,0,20">
+                <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed">Telephone:</TextBlock>
+                <TextBox x:Name="telephoneTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+                 VerticalAlignment="Center" Width="270" HorizontalAlignment="Left" Margin="58,0,0,0"/>
+            </WrapPanel>
+            <WrapPanel Margin="10,0,0,20">
+                <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed">Email Address:</TextBlock>
+                <TextBox x:Name="emailAddressTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+                 VerticalAlignment="Center" Width="270" HorizontalAlignment="Left" Margin="36,0,0,0"/>
+            </WrapPanel>
+            <WrapPanel Margin="10,0,0,20">
+                <TextBlock FontSize="15"  FontFamily="Bahnschrift Condensed">Customer Birthday:</TextBlock>
+                <DatePicker x:Name="customerBirthdayDatePicker" FontFamily="Bahnschrift Condensed" FontSize="15"
+                 VerticalAlignment="Center" Width="270" HorizontalAlignment="Left" Margin="15,0,0,0"/>
+            </WrapPanel>
+            <WrapPanel Margin="10,0,0,20">
+                <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed">Customer Status:</TextBlock>
+                <TextBox x:Name="customerStatusTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+                 VerticalAlignment="Center" Width="270"  HorizontalAlignment="Left" Margin="23,0,0,0"/>
+            </WrapPanel>
+            <WrapPanel Margin="10,0,0,10">
+                <TextBlock FontSize="15"  FontFamily="Bahnschrift Condensed">Password:</TextBlock>
+                <TextBox x:Name="passwordTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+                 VerticalAlignment="Center" Width="270" HorizontalAlignment="Left" Margin="58,0,0,0"/>
+            </WrapPanel>
+            <Button Content="Save" x:Name="createOrUpdateButton" Height="30" Width="100" Margin="0,0,0,20" Click="createOrUpdateButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
