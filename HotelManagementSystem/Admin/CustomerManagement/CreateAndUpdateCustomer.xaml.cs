@@ -8,13 +8,13 @@ namespace HotelManagementSystem.Admin.CustomerManagement
     /// <summary>
     /// Interaction logic for CreateAndUpdate.xaml
     /// </summary>
-    public partial class CreateAndUpdate : Window
+    public partial class CreateAndUpdateCustomer : Window
     {
         public bool isCreate {  get; set; }
         public Customer customer { get; set; }
         public ICustomerRepository _customerRepository;
         public MainWindow mainWindow {  get; set; }
-        public CreateAndUpdate()
+        public CreateAndUpdateCustomer()
         {
             InitializeComponent();
         }

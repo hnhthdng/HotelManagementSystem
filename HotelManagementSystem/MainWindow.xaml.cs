@@ -1,20 +1,11 @@
 ﻿using DataAccess.Repository.CustomerRepository;
 using DataAccess.Repository.RoomInformationRepository;
+using DataAccess.Repository.RoomTypeRepository;
 using DataObject.Models;
 using HotelManagementSystem.Admin.CustomerManagement;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using HotelManagementSystem.Admin.RoomManagement;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HotelManagementSystem
 {
@@ -28,10 +19,12 @@ namespace HotelManagementSystem
 
         public ICustomerRepository _customerRepository;
         public IRoomInformationRepository _roomInformationRepository;
+        public IRoomTypeRepository _roomTypeRepository;
         public MainWindow()
         {
             InitializeComponent();
             _roomInformationRepository = new RoomInformationRepository();
+            _roomTypeRepository = new RoomTypeRepository();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -42,6 +35,7 @@ namespace HotelManagementSystem
                 ProfileTab.Visibility = Visibility.Collapsed;
                 LoadListViewCustomer();
                 LoadListViewRoomInformation();
+                LoadListBoxRoomInformation();
             }
             else
             {
@@ -71,7 +65,7 @@ namespace HotelManagementSystem
 
         private void createCustomerButton_Click(object sender, RoutedEventArgs e)
         {
-            CreateAndUpdate createWindow = new CreateAndUpdate()
+            CreateAndUpdateCustomer createWindow = new CreateAndUpdateCustomer()
             {
                 isCreate = true,
                 _customerRepository = this._customerRepository,
@@ -85,7 +79,7 @@ namespace HotelManagementSystem
         {
             try
             {
-                CreateAndUpdate updateWindow = new CreateAndUpdate()
+                CreateAndUpdateCustomer updateWindow = new CreateAndUpdateCustomer()
                 {
                     isCreate = false,
                     customer = _customerRepository.GetCustomerByID(Int32.Parse(customerIDTextBox.Text)),
@@ -140,6 +134,15 @@ namespace HotelManagementSystem
             listRoomInformation.ItemsSource = null;
             listRoomInformation.ItemsSource = _roomInformationRepository.GetAllRoomInformation();
         }
+
+        public void LoadListBoxRoomInformation()
+        {
+            var listRoomType = _roomTypeRepository.GetAllRoomType();
+            foreach (RoomType r in listRoomType)
+            {
+                FilterByRoomTypeComboBox.Items.Add(r.RoomTypeId + ". " + r.RoomTypeName);
+            }
+        }
         #endregion
 
         #region Room Information Management Event Click
@@ -150,30 +153,77 @@ namespace HotelManagementSystem
 
         private void createRoomInfoButton_Click(object sender, RoutedEventArgs e)
         {
-
+            CreateAndUpdateRoom createWindow = new CreateAndUpdateRoom()
+            {
+                isCreate = true,
+                _roomInformationRepository = this._roomInformationRepository,
+                mainWindow = this
+            };
+            createWindow.Show();
+            createWindow.Closed += (s, args) => this.LoadListViewRoomInformation();
         }
 
         private void updateRoomInfoButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                CreateAndUpdateRoom updateWindow = new CreateAndUpdateRoom()
+                {
+                    isCreate = false,
+                    room = _roomInformationRepository.GetRoomInformationByRoomID(Int32.Parse(RoomIdTextBox.Text)),
+                    _roomInformationRepository = this._roomInformationRepository,
+                    mainWindow = this
+                };
+                updateWindow.Show();
+                updateWindow.Closed += (s, args) => this.LoadListViewRoomInformation();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Please select customer before update !");
+            }
         }
 
         private void deleteRoomInfoButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    _roomInformationRepository.DeleteRoomInformationByID(Int32.Parse(RoomIdTextBox.Text));
+                    System.Windows.Forms.MessageBox.Show("Delete Success !");
+                }
+                LoadListViewRoomInformation();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
         }
 
         private void searchByRoomNumberButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (!string.IsNullOrEmpty(searchByRoomNumberTextBox.Text))
+            {
+                listRoomInformation.ItemsSource = null;
+                listRoomInformation.ItemsSource = _roomInformationRepository.GetRoomInformationByRoomNumber(searchByRoomNumberTextBox.Text);
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Please enter before search !");
+            }
         }
 
-        private void FilterByRoomTypeButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         #endregion
 
+        private void FilterByRoomTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedRoomType = FilterByRoomTypeComboBox.SelectedItem.ToString();
+            var RoomTypeId = Int32.Parse(selectedRoomType.Substring(0, 1));
+            var listRoomByRoomType = _roomInformationRepository.FilterByRoomTypeID(RoomTypeId);
+            listRoomInformation.ItemsSource = null;
+            listRoomInformation.ItemsSource = listRoomByRoomType;
+        }
     }
 }
 

@@ -10,7 +10,7 @@ namespace DataAccess.Repository.RoomInformationRepository
     public interface IRoomInformationRepository
     {
         IEnumerable<RoomInformation> GetAllRoomInformation();
-        RoomInformation GetRoomInformationByRoomNumber(string roomNumber);
+        IEnumerable<RoomInformation> GetRoomInformationByRoomNumber(string roomNumber);
         RoomInformation GetRoomInformationByRoomID(int roomID);
         IEnumerable<RoomInformation> FilterByRoomTypeID(int roomTypeId);
         void UpdateRoomInformation(RoomInformation roomInformation);

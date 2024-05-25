@@ -168,11 +168,11 @@
                         <Button Content="Delete" x:Name="deleteRoomInfoButton" Height="30" Width="100" Margin="0,0,0,20" Click="deleteRoomInfoButton_Click" />
                         <WrapPanel Margin="0,-1,0,10">
                             <Button Content="Search By Room Number: " x:Name="searchByRoomNumberButton" Height="30" Width="141" Margin="100,0,20,0" Click="searchByRoomNumberButton_Click" />
-                            <TextBox x:Name="searchByRoomNumberTextBox" Width="220" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" />
+                            <TextBox x:Name="searchByRoomNumberTextBox" Width="190" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" />
                         </WrapPanel>
                         <WrapPanel>
-                            <Button Content="Filter By Room Type: " x:Name="FilterByRoomTypeButton" Height="30" Width="141" Margin="100,0,20,0" Click="FilterByRoomTypeButton_Click" />
-                            <ListBox x:Name="FilterByRoomTypeTextBox" Width="220" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" />
+                            <TextBlock Text="Filter By Room Type: "  Margin="100,6,20,0" />
+                            <ComboBox x:Name="FilterByRoomTypeComboBox" Width="220" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" SelectionChanged="FilterByRoomTypeComboBox_SelectionChanged" />
                         </WrapPanel>
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,20,0,0">Room Status: 1: Active ; 2 Deleted</TextBlock>
                     </StackPanel>

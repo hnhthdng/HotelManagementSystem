@@ -35,19 +35,19 @@ namespace DataAccess.DAO
             }
             return roomInformations;
         }
-        public RoomInformation GetRoomInformationByRoomNumber(string roomNumber)
+        public IEnumerable<RoomInformation> GetRoomInformationByRoomNumber(string roomNumber)
         {
-            RoomInformation roomInformation = null;
+            var roomInformations = new List<RoomInformation>();
             try
             {
                 using var context = new FuminiHotelManagementContext();
-                roomInformation = context.RoomInformations.SingleOrDefault(c => c.RoomNumber.Equals(roomNumber));
+                roomInformations = context.RoomInformations.Where(c => c.RoomNumber.Equals(roomNumber)).ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return roomInformation;
+            return roomInformations;
 
         }
         public RoomInformation GetRoomInformationByRoomID(int roomId)
@@ -81,14 +81,31 @@ namespace DataAccess.DAO
         }
         public void UpdateRoomInformation(RoomInformation roomInformation)
         {
+            IEnumerable<RoomInformation> _roomInformations = GetRoomInformationByRoomNumber(roomInformation.RoomNumber);
             try
             {
                 RoomInformation _product = GetRoomInformationByRoomID(roomInformation.RoomId);
                 if (_product != null)
                 {
-                    using var context = new FuminiHotelManagementContext();
-                    context.RoomInformations.Update(roomInformation);
-                    context.SaveChanges();
+                    foreach (var room in _roomInformations)
+                    {
+                        if (room.RoomNumber == roomInformation.RoomNumber)
+                        {
+                            throw new Exception("The Room is already exist!");
+                        }
+                    }
+                    if (roomInformation.RoomTypeId >= 1 && roomInformation.RoomTypeId <= 8)
+                    {
+
+                        using var context = new FuminiHotelManagementContext();
+                        context.RoomInformations.Update(roomInformation);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        throw new Exception("The Room is has invalid room type id, please enter between 1 and 8!");
+                    }
+
                 }
                 else
                 {
@@ -125,18 +142,26 @@ namespace DataAccess.DAO
         }
         public void CreateRoomInformation(RoomInformation roomInformation)
         {
+            IEnumerable<RoomInformation> _roomInformations = GetRoomInformationByRoomNumber(roomInformation.RoomNumber);
             try
             {
-                RoomInformation _roomInformation = GetRoomInformationByRoomNumber(roomInformation.RoomNumber);
-                if (_roomInformation == null)
+                foreach(var room in _roomInformations)
                 {
+                    if(room.RoomNumber == roomInformation.RoomNumber)
+                    {
+                        throw new Exception("The Room is already exist!");
+                    }
+                }
+                if (roomInformation.RoomTypeId >= 1 && roomInformation.RoomTypeId <= 8)
+                {
+
                     using var context = new FuminiHotelManagementContext();
                     context.RoomInformations.Add(roomInformation);
                     context.SaveChanges();
                 }
                 else
                 {
-                    throw new Exception("The Room is already exist!");
+                    throw new Exception("The Room is has invalid room type id, please enter between 1 and 8!");
                 }
             }
             catch (Exception ex)
