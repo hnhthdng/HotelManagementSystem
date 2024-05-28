@@ -89,7 +89,7 @@
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,20,0,0">Customer Status: 0: Deleted; 1: Active</TextBlock>
                     </StackPanel>
 
-                    <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" x:Name="listCustomer">
+                    <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" x:Name="listCustomer" >
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Customer ID" Width="154" DisplayMemberBinding="{Binding Path=CustomerId}" />
@@ -197,7 +197,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="ReservationTab" Header="Reservation">
+            <TabItem x:Name="ReservationTab" Header="Reservation" >
                 <Grid Background="White">
                     <Grid Background="White">
                         <Grid.RowDefinitions>
@@ -260,7 +260,7 @@
 
                         <StackPanel Grid.Column="0" Grid.Row="1" >
                             <TextBlock HorizontalAlignment="Center" FontWeight="Bold" FontSize="20">Room Reservation</TextBlock>
-                            <ListView  x:Name="listBookingReservation" Margin="0,0,10,0" Height="300">
+                            <ListView  x:Name="listBookingReservation" Margin="0,0,10,0" Height="300" SelectionChanged="listBookingReservation_SelectionChanged" >
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Header="Booking Reservation Id" Width="125" DisplayMemberBinding="{Binding Path=BookingReservationId}" />

@@ -1,4 +1,5 @@
-﻿using DataAccess.Repository.BookingReservationRepository;
+﻿using DataAccess.Repository.BookingDetailRepository;
+using DataAccess.Repository.BookingReservationRepository;
 using DataAccess.Repository.CustomerRepository;
 using DataAccess.Repository.RoomInformationRepository;
 using DataAccess.Repository.RoomTypeRepository;
@@ -23,12 +24,14 @@ namespace HotelManagementSystem
         public IRoomInformationRepository _roomInformationRepository;
         public IRoomTypeRepository _roomTypeRepository;
         public IBookingReservationRepository _bookingReservationRepository;
+        public IBookingDetailRepository _bookingDetailRepository;
         public MainWindow()
         {
             InitializeComponent();
             _roomInformationRepository = new RoomInformationRepository();
             _roomTypeRepository = new RoomTypeRepository();
             _bookingReservationRepository = new BookingReservationRepository();
+            _bookingDetailRepository = new BookingDetailRepository();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -307,6 +310,14 @@ namespace HotelManagementSystem
                 System.Windows.Forms.MessageBox.Show("Please enter before search !");
             }
         }
+
+        private void listBookingReservation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int reservationID = Int32.Parse(BookingReservationIdTextBox.Text);
+            listBookingDetail.ItemsSource = null;
+            listBookingDetail.ItemsSource = _bookingDetailRepository.GetALlBookingDetailInReservation(reservationID);
+        }
+
         #endregion
 
     }
