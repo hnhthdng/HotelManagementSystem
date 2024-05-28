@@ -1,4 +1,5 @@
 ﻿using DataObject.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,22 @@ namespace DataAccess.DAO
             }
         }
 
+        public IEnumerable<BookingDetail> GetALlBookingDetail()
+        {
+            var bookingDetails = new List<BookingDetail>();
+            try
+            {
+                using var context = new FuminiHotelManagementContext();
+                bookingDetails = context.BookingDetails.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return bookingDetails;
+        }
+
+
         public IEnumerable<BookingDetail> GetALlBookingDetailInReservation(int bookingReservationId)
         {
             var bookingDetails = new List<BookingDetail>();
@@ -39,6 +56,33 @@ namespace DataAccess.DAO
             {
                 throw new Exception(ex.Message);
             }
+            return bookingDetails;
+        }
+
+        public IEnumerable<BookingDetail> GetBookingDetailByRoomID(int id)
+        {
+            var bookingDetails = new List<BookingDetail>();
+            try
+            {
+                using var context = new FuminiHotelManagementContext();
+                bookingDetails = context.BookingDetails.Where(c => c.RoomId == id).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return bookingDetails;
+        }
+
+        public IEnumerable<BookingDetail> GetBookingDetailsBetweenDates(DateOnly startDate, DateOnly endDate)
+        {
+            using var context = new FuminiHotelManagementContext();
+
+            var bookingDetails = context.BookingDetails
+                .Where(bd => bd.StartDate >= startDate && bd.EndDate <= endDate)
+                .OrderByDescending(bd => bd.BookingReservationId)
+                .ToList();
+
             return bookingDetails;
         }
     }

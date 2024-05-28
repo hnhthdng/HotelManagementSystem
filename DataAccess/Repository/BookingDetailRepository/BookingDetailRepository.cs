@@ -10,7 +10,12 @@ namespace DataAccess.Repository.BookingDetailRepository
 {
     public class BookingDetailRepository : IBookingDetailRepository
     {
+        public IEnumerable<BookingDetail> GetALlBookingDetail() => BookingDetailDAO.Instance.GetALlBookingDetail();
         public IEnumerable<BookingDetail> GetALlBookingDetailInReservation(int bookingReservationId)
                 => BookingDetailDAO.Instance.GetALlBookingDetailInReservation(bookingReservationId);
+
+        public IEnumerable<BookingDetail> GetBookingDetailByRoomID(int id) => BookingDetailDAO.Instance.GetBookingDetailByRoomID(id);
+
+        public IEnumerable<BookingDetail> GetBookingDetailsBetweenDates(DateOnly startDate, DateOnly endDate) => BookingDetailDAO.Instance.GetBookingDetailsBetweenDates(startDate, endDate);
     }
 }

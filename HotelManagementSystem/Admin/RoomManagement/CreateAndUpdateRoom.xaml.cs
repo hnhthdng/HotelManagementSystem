@@ -1,6 +1,8 @@
-﻿using DataAccess.Repository.RoomInformationRepository;
+﻿using DataAccess.Repository.BookingDetailRepository;
+using DataAccess.Repository.RoomInformationRepository;
 using DataObject.Models;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Forms;
 
 namespace HotelManagementSystem.Admin.RoomManagement
@@ -13,11 +15,28 @@ namespace HotelManagementSystem.Admin.RoomManagement
         public bool isCreate { get; set; }
         public RoomInformation room { get; set; }
         public IRoomInformationRepository _roomInformationRepository;
+        public IBookingDetailRepository _bookingDetailRepository;
         public MainWindow mainWindow { get; set; }
 
         public CreateAndUpdateRoom()
         {
             InitializeComponent();
+            _bookingDetailRepository = new BookingDetailRepository();
+        }
+
+
+        public bool IsPassEndDate(IEnumerable< BookingDetail> bookingDetails)
+        {
+            var dateNow = DateOnly.FromDateTime(DateTime.Now);
+
+            foreach (var book in bookingDetails)
+            {
+                if (book.EndDate >= dateNow)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -37,6 +56,18 @@ namespace HotelManagementSystem.Admin.RoomManagement
                 RoomTypeIdTextBox.Text = room.RoomTypeId.ToString();
                 roomStatusTextBox.Text = room.RoomStatus.ToString();
                 RoomPricePerDayTextBox.Text = room.RoomPricePerDay.ToString();
+
+
+                IEnumerable<BookingDetail> booked = _bookingDetailRepository.GetBookingDetailByRoomID(room.RoomId);
+                if (!IsPassEndDate(booked)) {
+
+                    RoomNumberPanel.Visibility = Visibility.Collapsed;
+                    RoomDetailWrapPanel.Visibility = Visibility.Collapsed;
+                    RoomMaxCapacityPanel.Visibility = Visibility.Collapsed;
+                    RoomTypeIDWrapPanel.Visibility = Visibility.Collapsed;
+                    RoomPriceWrapPanel.Visibility = Visibility.Collapsed;
+                }
+
             }
         }
 
@@ -60,9 +91,11 @@ namespace HotelManagementSystem.Admin.RoomManagement
                 }
                 else
                 {
+                    
                     _room.RoomId = room.RoomId;
                     _roomInformationRepository.UpdateRoomInformation(_room);
                     System.Windows.Forms.MessageBox.Show("Update Success !", "Update", MessageBoxButtons.OK);
+
                 }
             }
             catch (Exception ex)

@@ -44,6 +44,7 @@ namespace HotelManagementSystem
                 LoadListViewRoomInformation();
                 LoadListBoxRoomInformation();
                 LoadListViewReservation();
+                LoadListViewReport();
             }
             else
             {
@@ -151,6 +152,19 @@ namespace HotelManagementSystem
                 FilterByRoomTypeComboBox.Items.Add(r.RoomTypeId + ". " + r.RoomTypeName);
             }
         }
+        public bool IsPassEndDate(IEnumerable<BookingDetail> bookingDetails)
+        {
+            var dateNow = DateOnly.FromDateTime(DateTime.Now);
+
+            foreach (var book in bookingDetails)
+            {
+                if (book.EndDate >= dateNow)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         #endregion
 
         #region Room Information Management Event Click
@@ -196,12 +210,32 @@ namespace HotelManagementSystem
             try
             {
                 MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
-                if (messageBoxResult == MessageBoxResult.Yes)
+
+                var roomSelected = _roomInformationRepository.GetRoomInformationByRoomID(Int32.Parse(RoomIdTextBox.Text));
+                IEnumerable<BookingDetail> booked = _bookingDetailRepository.GetBookingDetailByRoomID(roomSelected.RoomId);
+                if (!booked.Any())
                 {
-                    _roomInformationRepository.DeleteRoomInformationByID(Int32.Parse(RoomIdTextBox.Text));
-                    System.Windows.Forms.MessageBox.Show("Delete Success !");
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                    {
+                        _roomInformationRepository.DeleteRoomInformationByID(Int32.Parse(RoomIdTextBox.Text));
+                        System.Windows.Forms.MessageBox.Show("Delete Success !");
+                    }
+                    LoadListViewRoomInformation();
                 }
-                LoadListViewRoomInformation();
+                else
+                {
+                    if (!IsPassEndDate(booked))
+                    {
+                        System.Windows.Forms.MessageBox.Show("Delete Failed because this room is booked !");
+                    }
+                    else
+                    {
+                        _roomInformationRepository.DeleteRoomInformationByID(Int32.Parse(RoomIdTextBox.Text));
+                        System.Windows.Forms.MessageBox.Show("Delete Success !");
+                    }
+                    LoadListViewRoomInformation();
+
+                }
             }
             catch (Exception ex)
             {
@@ -313,9 +347,45 @@ namespace HotelManagementSystem
 
         private void listBookingReservation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int reservationID = Int32.Parse(BookingReservationIdTextBox.Text);
-            listBookingDetail.ItemsSource = null;
-            listBookingDetail.ItemsSource = _bookingDetailRepository.GetALlBookingDetailInReservation(reservationID);
+            try
+            {
+                int reservationID = Int32.Parse(BookingReservationIdTextBox.Text);
+                listBookingDetail.ItemsSource = null;
+                listBookingDetail.ItemsSource = _bookingDetailRepository.GetALlBookingDetailInReservation(reservationID);
+            }
+            catch(Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+
+            }
+        }
+
+        #endregion
+
+        #region Report Method
+        public void LoadListViewReport()
+        {
+            listReport.ItemsSource = null;
+            listReport.ItemsSource = _bookingDetailRepository.GetALlBookingDetail();
+        }
+        #endregion
+
+        #region Report Event Click
+
+        private void RefreshDateButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoadListViewReport();
+        }
+       
+
+        private void FilterDateButton_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime? sdate = ReportStartDatePicker.SelectedDate;
+            DateTime? edate = ReportEndDatePicker.SelectedDate;
+            DateOnly startDate = DateOnly.FromDateTime(sdate.Value);
+            DateOnly endDate = DateOnly.FromDateTime(edate.Value);
+            listReport.ItemsSource = null;
+            listReport.ItemsSource = _bookingDetailRepository.GetBookingDetailsBetweenDates(startDate, endDate);
         }
 
         #endregion

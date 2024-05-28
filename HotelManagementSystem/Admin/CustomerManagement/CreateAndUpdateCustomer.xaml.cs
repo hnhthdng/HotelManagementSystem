@@ -43,12 +43,14 @@ namespace HotelManagementSystem.Admin.CustomerManagement
         {
             try
             {
+                DateTime? birthday = customerBirthdayDatePicker.SelectedDate;
+
                 Customer cus = new Customer
                 {
                     CustomerFullName = customerFullNameTextBox.Text,
                     Telephone = telephoneTextBox.Text,
                     EmailAddress = emailAddressTextBox.Text,
-                    CustomerBirthday = DateOnly.FromDateTime(customerBirthdayDatePicker.DisplayDate.Date),
+                    CustomerBirthday = DateOnly.FromDateTime(birthday.Value),
                     CustomerStatus = byte.Parse(customerStatusTextBox.Text),
                     Password = passwordTextBox.Text,
                 };

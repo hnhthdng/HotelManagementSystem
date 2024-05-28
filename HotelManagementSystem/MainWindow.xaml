@@ -292,7 +292,37 @@
             </TabItem>
 
             <TabItem x:Name="ReportTab" Header="Report">
-                <Grid Background="#FFE5E5E5" />
+                <Grid Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel>
+                        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,35,0,0">
+                            <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed" Margin="0,6,10,0" >Start Date: </TextBlock>
+                            <DatePicker x:Name="ReportStartDatePicker" ></DatePicker>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,11,0,0">
+                            <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed" Margin="0,6,10,0">End Date:</TextBlock>
+                            <DatePicker x:Name="ReportEndDatePicker" Margin="6,0,0,0" ></DatePicker>
+                        </WrapPanel>
+                        <Button x:Name="FilterDateButton" Width="100" Margin="0,22,0,0" Click="FilterDateButton_Click">Filter</Button>
+                        <Button x:Name="RefreshDateButton" Width="100" Margin="0,22,0,0" Click="RefreshDateButton_Click">Refresh</Button>
+                    </StackPanel>
+                    <ListView Grid.Row="1" x:Name="listReport">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Booking Reservation ID" Width="216" DisplayMemberBinding="{Binding Path=BookingReservationId}" />
+                                <GridViewColumn Header="Room ID" Width="216" DisplayMemberBinding="{Binding Path=RoomId}" />
+                                <GridViewColumn Header="Start Date" Width="216" DisplayMemberBinding="{Binding Path=StartDate}" />
+                                <GridViewColumn Header="End Date" Width="216" DisplayMemberBinding="{Binding Path=EndDate}" />
+                                <GridViewColumn Header="Actual Price" Width="216" DisplayMemberBinding="{Binding Path=ActualPrice}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+                
             </TabItem>
 
             <TabItem x:Name="ProfileTab"  Header="Profile">

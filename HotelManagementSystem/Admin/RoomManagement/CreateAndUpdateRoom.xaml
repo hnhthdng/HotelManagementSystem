@@ -16,33 +16,33 @@
          Width="270" IsReadOnly="True" VerticalAlignment="Center" HorizontalAlignment="Left" 
          VerticalContentAlignment="Center" Margin="99,0,0,0"/>
             </WrapPanel>
-            <WrapPanel Margin="10,0,0,20">
+            <WrapPanel x:Name="RoomNumberPanel" Margin="10,0,0,20">
                 <TextBlock FontSize="15" Margin="0,0,0,0" FontFamily="Bahnschrift Condensed">Room Number:</TextBlock>
                 <TextBox x:Name="roomNumberTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
          VerticalAlignment="Center" Width="270" HorizontalAlignment="Left"
          RenderTransformOrigin="0.608,0.584" Margin="70,0,0,0"/>
             </WrapPanel>
-            <WrapPanel Margin="10,0,0,20">
+            <WrapPanel x:Name="RoomDetailWrapPanel" Margin="10,0,0,20">
                 <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed">Room Detail Description:</TextBlock>
                 <TextBox x:Name="roomDetailDescriptionTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
          VerticalAlignment="Center" Width="269" HorizontalAlignment="Left" Margin="20,0,0,0"/>
             </WrapPanel>
-            <WrapPanel Margin="10,0,0,20">
+            <WrapPanel x:Name="RoomMaxCapacityPanel" Margin="10,0,0,20">
                 <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed">Room Max Capacity:</TextBlock>
                 <TextBox x:Name="RoomMaxCapacityTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
          VerticalAlignment="Center" Width="270" HorizontalAlignment="Left" Margin="42,0,0,0"/>
             </WrapPanel>
-            <WrapPanel Margin="10,0,0,20">
+            <WrapPanel x:Name="RoomTypeIDWrapPanel" Margin="10,0,0,20">
                 <TextBlock FontSize="15"  FontFamily="Bahnschrift Condensed">Room Type Id:</TextBlock>
                 <TextBox x:Name="RoomTypeIdTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
          VerticalAlignment="Center" Width="270" HorizontalAlignment="Left" Margin="73,0,0,0"/>
             </WrapPanel>
-            <WrapPanel Margin="10,0,0,20">
+            <WrapPanel x:Name="RoomStatusWrapPanel" Margin="10,0,0,20">
                 <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed">Room Status:</TextBlock>
                 <TextBox x:Name="roomStatusTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
          VerticalAlignment="Center" Width="270"  HorizontalAlignment="Left" Margin="76,0,0,0"/>
             </WrapPanel>
-            <WrapPanel Margin="10,0,0,10">
+            <WrapPanel x:Name="RoomPriceWrapPanel" Margin="10,0,0,10">
                 <TextBlock FontSize="15"  FontFamily="Bahnschrift Condensed">Room Price PerDay:</TextBlock>
                 <TextBox x:Name="RoomPricePerDayTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
          VerticalAlignment="Center" Width="270" HorizontalAlignment="Left" Margin="46,0,0,0"/>

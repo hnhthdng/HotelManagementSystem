@@ -81,19 +81,12 @@ namespace DataAccess.DAO
         }
         public void UpdateRoomInformation(RoomInformation roomInformation)
         {
-            IEnumerable<RoomInformation> _roomInformations = GetRoomInformationByRoomNumber(roomInformation.RoomNumber);
             try
             {
                 RoomInformation _product = GetRoomInformationByRoomID(roomInformation.RoomId);
                 if (_product != null)
                 {
-                    foreach (var room in _roomInformations)
-                    {
-                        if (room.RoomNumber == roomInformation.RoomNumber)
-                        {
-                            throw new Exception("The Room is already exist!");
-                        }
-                    }
+                    
                     if (roomInformation.RoomTypeId >= 1 && roomInformation.RoomTypeId <= 8)
                     {
 
