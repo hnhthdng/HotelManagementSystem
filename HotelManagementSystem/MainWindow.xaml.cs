@@ -380,12 +380,19 @@ namespace HotelManagementSystem
 
         private void FilterDateButton_Click(object sender, RoutedEventArgs e)
         {
-            DateTime? sdate = ReportStartDatePicker.SelectedDate;
-            DateTime? edate = ReportEndDatePicker.SelectedDate;
-            DateOnly startDate = DateOnly.FromDateTime(sdate.Value);
-            DateOnly endDate = DateOnly.FromDateTime(edate.Value);
-            listReport.ItemsSource = null;
-            listReport.ItemsSource = _bookingDetailRepository.GetBookingDetailsBetweenDates(startDate, endDate);
+            try
+            {
+                DateTime? sdate = ReportStartDatePicker.SelectedDate;
+                DateTime? edate = ReportEndDatePicker.SelectedDate;
+                DateOnly startDate = DateOnly.FromDateTime(sdate.Value);
+                DateOnly endDate = DateOnly.FromDateTime(edate.Value);
+                listReport.ItemsSource = null;
+                listReport.ItemsSource = _bookingDetailRepository.GetBookingDetailsBetweenDates(startDate, endDate);
+            }
+            catch
+            {
+                MessageBox.Show("Please enter start date and end date");
+            }
         }
 
         #endregion
