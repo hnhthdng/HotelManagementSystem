@@ -1,8 +1,10 @@
-﻿using DataAccess.Repository.CustomerRepository;
+﻿using DataAccess.Repository.BookingReservationRepository;
+using DataAccess.Repository.CustomerRepository;
 using DataAccess.Repository.RoomInformationRepository;
 using DataAccess.Repository.RoomTypeRepository;
 using DataObject.Models;
 using HotelManagementSystem.Admin.CustomerManagement;
+using HotelManagementSystem.Admin.ReservationManagement;
 using HotelManagementSystem.Admin.RoomManagement;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,11 +22,13 @@ namespace HotelManagementSystem
         public ICustomerRepository _customerRepository;
         public IRoomInformationRepository _roomInformationRepository;
         public IRoomTypeRepository _roomTypeRepository;
+        public IBookingReservationRepository _bookingReservationRepository;
         public MainWindow()
         {
             InitializeComponent();
             _roomInformationRepository = new RoomInformationRepository();
             _roomTypeRepository = new RoomTypeRepository();
+            _bookingReservationRepository = new BookingReservationRepository();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -36,6 +40,7 @@ namespace HotelManagementSystem
                 LoadListViewCustomer();
                 LoadListViewRoomInformation();
                 LoadListBoxRoomInformation();
+                LoadListViewReservation();
             }
             else
             {
@@ -226,32 +231,81 @@ namespace HotelManagementSystem
         #endregion
 
         #region Reservation Management Method
+        public void LoadListViewReservation()
+        {
+            listBookingReservation.ItemsSource = null;
+            listBookingReservation.ItemsSource = _bookingReservationRepository.GetAllBookingReservation();
+        }
         #endregion
 
         #region Reservation Management Event Click
         private void refreshReservationButton_Click(object sender, RoutedEventArgs e)
         {
-
+            LoadListViewReservation();
         }
 
         private void createReservationButton_Click(object sender, RoutedEventArgs e)
         {
-
+            CreateAndUpdateReservation createWindow = new CreateAndUpdateReservation()
+            {
+                isCreate = true,
+                _bookingReservationRepository = this._bookingReservationRepository,
+                mainWindow = this
+            };
+            createWindow.Show();
+            createWindow.Closed += (s, args) => this.LoadListViewReservation();
         }
 
         private void updateReservationButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                CreateAndUpdateReservation updateWindow = new CreateAndUpdateReservation()
+                {
+                    isCreate = false,
+                    reservation = _bookingReservationRepository.GetBookingReservationByID(Int32.Parse(BookingReservationIdTextBox.Text)),
+                    _bookingReservationRepository = this._bookingReservationRepository,
+                    mainWindow = this
+                };
+                updateWindow.Show();
+                updateWindow.Closed += (s, args) => this.LoadListViewReservation();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Please select reservation before update !");
+            }
         }
 
         private void deleteReservationButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    _bookingReservationRepository.DeleteBookingReservationByID(Int32.Parse(BookingReservationIdTextBox.Text));
+                    System.Windows.Forms.MessageBox.Show("Delete Success !");
+                }
+                LoadListViewReservation();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
         }
 
         private void searchReservationByCustomerIDButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (!string.IsNullOrEmpty(searchReservationByCustomerIDTextBox.Text))
+            {
+                int cusID = Int32.Parse(searchReservationByCustomerIDTextBox.Text);
+                listBookingReservation.ItemsSource = null;
+                listBookingReservation.ItemsSource = _bookingReservationRepository.SearchReservationByCustomerID(cusID);
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Please enter before search !");
+            }
         }
         #endregion
 

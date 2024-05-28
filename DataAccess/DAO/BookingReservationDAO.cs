@@ -70,7 +70,7 @@ namespace DataAccess.DAO
             }
             return bookingReservations;
         }
-        public void UpdateRoomInformation(BookingReservation bookingReservation)
+        public void UpdateBookingReservation(BookingReservation bookingReservation)
         {
             BookingReservation _bookingReservation = GetBookingReservationByID(bookingReservation.BookingReservationId);
             try
@@ -91,22 +91,21 @@ namespace DataAccess.DAO
                 throw new Exception(ex.Message);
             }
         }
-        public void DeleteRoomInformationByID(int id)
+        public void DeleteBookingReservationByID(int id)
         {
             try
             {
-                RoomInformation _room = GetRoomInformationByRoomID(id);
-                if (_room != null)
+                BookingReservation _bookingReservation = GetBookingReservationByID(id);
+                if (_bookingReservation != null)
                 {
                     using var context = new FuminiHotelManagementContext();
-                    _room.RoomStatus = 0;
-                    context.RoomInformations.Update(_room);
-                    context.SaveChanges();
+                    _bookingReservation.BookingStatus = 0;
+                    context.BookingReservations.Update(_bookingReservation);
                     context.SaveChanges();
                 }
                 else
                 {
-                    throw new Exception("The Room does not already exist!");
+                    throw new Exception("The Reservation does not already exist!");
 
                 }
             }
@@ -115,28 +114,20 @@ namespace DataAccess.DAO
                 throw new Exception(ex.Message);
             }
         }
-        public void CreateRoomInformation(RoomInformation roomInformation)
+        public void CreateBookingReservation(BookingReservation bookingReservation)
         {
-            IEnumerable<RoomInformation> _roomInformations = GetRoomInformationByRoomNumber(roomInformation.RoomNumber);
+            BookingReservation _bookingReservations = GetBookingReservationByID(bookingReservation.BookingReservationId);
             try
             {
-                foreach (var room in _roomInformations)
+                if (_bookingReservations == null)
                 {
-                    if (room.RoomNumber == roomInformation.RoomNumber)
-                    {
-                        throw new Exception("The Room is already exist!");
-                    }
-                }
-                if (roomInformation.RoomTypeId >= 1 && roomInformation.RoomTypeId <= 8)
-                {
-
                     using var context = new FuminiHotelManagementContext();
-                    context.RoomInformations.Add(roomInformation);
+                    context.BookingReservations.Add(bookingReservation);
                     context.SaveChanges();
                 }
                 else
                 {
-                    throw new Exception("The Room is has invalid room type id, please enter between 1 and 8!");
+                    throw new Exception("The reservation is already exist!");
                 }
             }
             catch (Exception ex)

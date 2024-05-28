@@ -9,7 +9,11 @@
         WindowStartupLocation="CenterScreen"
         Title="Hotel Management System" Height="720" Width="1080" Icon="/iconApp.png" Loaded="Window_Loaded">
     <Grid>
-        <TabControl>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="113*"/>
+            <ColumnDefinition Width="247*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl Grid.ColumnSpan="2">
             <TabItem x:Name="FirstTabToHide">
                 <Image Source="/hotelBackground.png" Stretch="Fill"></Image>
             </TabItem>
@@ -82,7 +86,7 @@
                             <Button Content="Search By Name: " x:Name="searchByNameButton" Height="30" Width="100" Margin="100,0,20,0" Click="searchByNameCustomerButton_Click" />
                             <TextBox x:Name="searchByNameTextBox" Width="220" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" />
                         </WrapPanel>
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,20,0,0">Customer Status: 0: Deleted; 1: Active </TextBlock>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,20,0,0">Customer Status: 0: Deleted; 1: Active</TextBlock>
                     </StackPanel>
 
                     <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" x:Name="listCustomer">
@@ -236,9 +240,9 @@
 
                                 <WrapPanel Margin="10,0,0,20">
                                     <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed">Booking Status:</TextBlock>
-                                    <TextBox x:Name="BookingStatusTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
-         VerticalAlignment="Center" Width="270"  HorizontalAlignment="Left" Margin="69,0,0,0"
-         Text="{Binding BookingStatus}" DataContext="{Binding SelectedItem, ElementName=listBookingReservation}" />
+                                    <TextBox x:Name="bookingStatusTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+         VerticalAlignment="Center" Width="270"  HorizontalAlignment="Left"
+         Text="{Binding BookingStatus}" DataContext="{Binding SelectedItem, ElementName=listBookingReservation}" Margin="71,0,0,0" />
                                 </WrapPanel>
                             </StackPanel>
                             <WrapPanel Margin="270,10,0,0" Width="484">
@@ -256,7 +260,7 @@
 
                         <StackPanel Grid.Column="0" Grid.Row="1" >
                             <TextBlock HorizontalAlignment="Center" FontWeight="Bold" FontSize="20">Room Reservation</TextBlock>
-                            <ListView  x:Name="listBookingReservation" Margin="0,0,10,0">
+                            <ListView  x:Name="listBookingReservation" Margin="0,0,10,0" Height="300">
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Header="Booking Reservation Id" Width="125" DisplayMemberBinding="{Binding Path=BookingReservationId}" />
@@ -270,7 +274,7 @@
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="1" >
                             <TextBlock HorizontalAlignment="Center" FontWeight="Bold" FontSize="20">Booking Details</TextBlock>
-                            <ListView  x:Name="listBookingDetail" Margin="10,0,0,0">
+                            <ListView  x:Name="listBookingDetail" Margin="10,0,0,0" Height="300" d:IsHidden="True">
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Header="Room Id" Width="133" DisplayMemberBinding="{Binding Path=RoomId}" />
@@ -282,7 +286,7 @@
                             </ListView>
 
                         </StackPanel>
-                        
+
                     </Grid>
                 </Grid>
             </TabItem>
