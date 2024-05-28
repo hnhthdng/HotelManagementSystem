@@ -194,7 +194,97 @@
             </TabItem>
 
             <TabItem x:Name="ReservationTab" Header="Reservation">
-                <Grid Background="#FFE5E5E5" />
+                <Grid Background="White">
+                    <Grid Background="White">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <WrapPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+                            <StackPanel Margin="300,0,0,0">
+                                <WrapPanel Margin="10,10,0,20" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                    <TextBlock FontSize="15" Margin="0,0,0,0" FontFamily="Bahnschrift Condensed">Booking Reservation ID:</TextBlock>
+                                    <TextBox x:Name="BookingReservationIdTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+                                    Width="270" IsReadOnly="True" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                     VerticalContentAlignment="Center" Margin="32,0,0,0"
+                                     Text="{Binding BookingReservationId}" DataContext="{Binding SelectedItem, ElementName=listBookingReservation}" />
+                                </WrapPanel>
+                                <WrapPanel Margin="10,0,0,20">
+                                    <TextBlock FontSize="15" Margin="0,0,0,0" FontFamily="Bahnschrift Condensed">Booking Date:</TextBlock>
+                                    <TextBox x:Name="BookingDateTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+         VerticalAlignment="Center" Width="270" HorizontalAlignment="Left"
+         RenderTransformOrigin="0.608,0.584" Margin="80,0,0,0"
+         Text="{Binding BookingDate}" DataContext="{Binding SelectedItem, ElementName=listBookingReservation}" />
+                                </WrapPanel>
+                                <WrapPanel Margin="10,0,0,20">
+                                    <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed">Total Price:</TextBlock>
+                                    <TextBox x:Name="totalPriceTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+         VerticalAlignment="Center" Width="270" HorizontalAlignment="Left" Margin="93,0,0,0"
+         Text="{Binding TotalPrice}" DataContext="{Binding SelectedItem, ElementName=listBookingReservation}" />
+                                </WrapPanel>
+                                <WrapPanel Margin="10,0,0,20">
+                                    <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed">Customer Id:</TextBlock>
+                                    <TextBox x:Name="CustomerId" FontFamily="Bahnschrift Condensed" FontSize="15"
+         VerticalAlignment="Center" Width="270" HorizontalAlignment="Left" Margin="86,0,0,0"
+         Text="{Binding CustomerId}" DataContext="{Binding SelectedItem, ElementName=listBookingReservation}" />
+                                </WrapPanel>
+
+                                <WrapPanel Margin="10,0,0,20">
+                                    <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed">Booking Status:</TextBlock>
+                                    <TextBox x:Name="BookingStatusTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+         VerticalAlignment="Center" Width="270"  HorizontalAlignment="Left" Margin="69,0,0,0"
+         Text="{Binding BookingStatus}" DataContext="{Binding SelectedItem, ElementName=listBookingReservation}" />
+                                </WrapPanel>
+                            </StackPanel>
+                            <WrapPanel Margin="270,10,0,0" Width="484">
+                                <Button Content="Refresh" x:Name="refreshReservationButton" Height="30" Width="100" Click="refreshReservationButton_Click" />
+                                <Button Content="Create" x:Name="createReservationButton" Height="30" Width="100" Click="createReservationButton_Click" Margin="20,0,20,0" />
+                                <Button Content="Update" x:Name="updateReservationButton" Height="30" Width="100" Click="updateReservationButton_Click" Margin="0,0,20,0" />
+                                <Button Content="Delete" x:Name="deleteReservationButton" Height="30" Width="100" Click="deleteReservationButton_Click" />
+                                <WrapPanel Margin="0,20,0,0">
+                                    <Button Content="Search Reservation By Customer ID: " x:Name="searchReservationByCustomerIDButton" Height="30" Width="193" Margin="33,0,20,0" Click="searchReservationByCustomerIDButton_Click" />
+                                    <TextBox x:Name="searchReservationByCustomerIDTextBox" Width="190" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" />
+                                </WrapPanel>
+
+                            </WrapPanel>
+                        </WrapPanel>
+
+                        <StackPanel Grid.Column="0" Grid.Row="1" >
+                            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" FontSize="20">Room Reservation</TextBlock>
+                            <ListView  x:Name="listBookingReservation" Margin="0,0,10,0">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Booking Reservation Id" Width="125" DisplayMemberBinding="{Binding Path=BookingReservationId}" />
+                                        <GridViewColumn Header="Booking Date" Width="100" DisplayMemberBinding="{Binding Path=BookingDate}" />
+                                        <GridViewColumn Header="Total Price" Width="100" DisplayMemberBinding="{Binding Path=TotalPrice}" />
+                                        <GridViewColumn Header="Customer Id" Width="100" DisplayMemberBinding="{Binding Path=CustomerId}" />
+                                        <GridViewColumn Header="Booking Status" Width="100" DisplayMemberBinding="{Binding Path=BookingStatus}" />
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="1" >
+                            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" FontSize="20">Booking Details</TextBlock>
+                            <ListView  x:Name="listBookingDetail" Margin="10,0,0,0">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Room Id" Width="133" DisplayMemberBinding="{Binding Path=RoomId}" />
+                                        <GridViewColumn Header="Start Date" Width="133" DisplayMemberBinding="{Binding Path=StartDate}" />
+                                        <GridViewColumn Header="EndDate" Width="133" DisplayMemberBinding="{Binding Path=EndDate}" />
+                                        <GridViewColumn Header="ActualPrice" Width="133" DisplayMemberBinding="{Binding Path=ActualPrice}" />
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+
+                        </StackPanel>
+                        
+                    </Grid>
+                </Grid>
             </TabItem>
 
             <TabItem x:Name="ReportTab" Header="Report">

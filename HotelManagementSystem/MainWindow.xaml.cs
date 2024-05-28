@@ -213,9 +213,6 @@ namespace HotelManagementSystem
                 System.Windows.Forms.MessageBox.Show("Please enter before search !");
             }
         }
-
-        #endregion
-
         private void FilterByRoomTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedRoomType = FilterByRoomTypeComboBox.SelectedItem.ToString();
@@ -224,6 +221,40 @@ namespace HotelManagementSystem
             listRoomInformation.ItemsSource = null;
             listRoomInformation.ItemsSource = listRoomByRoomType;
         }
+
+
+        #endregion
+
+        #region Reservation Management Method
+        #endregion
+
+        #region Reservation Management Event Click
+        private void refreshReservationButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void createReservationButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void updateReservationButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void deleteReservationButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void searchReservationByCustomerIDButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        #endregion
+
     }
 }
 
