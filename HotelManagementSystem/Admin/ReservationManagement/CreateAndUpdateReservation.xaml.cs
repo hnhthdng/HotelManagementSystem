@@ -38,6 +38,7 @@ namespace HotelManagementSystem.Admin.ReservationManagement
                 {
                     _bookingReservationRepository.CreateBookingReservation(res);
                     System.Windows.Forms.MessageBox.Show("Create Success !", "Create", MessageBoxButtons.OK);
+                    
                 }
                 else
                 {
@@ -60,6 +61,8 @@ namespace HotelManagementSystem.Admin.ReservationManagement
             {
                 this.Title = "Create Reservation";
                 ReservationIDWrapPanel.Visibility = Visibility.Collapsed;
+                totalPriceTextBox.Text = "0";
+                totalPriceTextBox.IsReadOnly = true;
             }
             else
             {

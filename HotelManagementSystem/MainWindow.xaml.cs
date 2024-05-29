@@ -390,6 +390,8 @@ namespace HotelManagementSystem
             };
             createWindow.Show();
             createWindow.Closed += (s, args) => this.LoadListBookingDetailByReservationID();
+            createWindow.Closed += (s, args) => this.LoadListViewReservation();
+
         }
 
         private void updateBookingDetailButton_Click(object sender, RoutedEventArgs e)
@@ -429,7 +431,7 @@ namespace HotelManagementSystem
                 try
                 {
                     BookingDetail booking = (BookingDetail)listBookingDetail.SelectedItems[0];
-                    if(booking.EndDate < DateOnly.FromDateTime(DateTime.Now))
+                    if (booking.EndDate < DateOnly.FromDateTime(DateTime.Now))
                     {
                         MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
                         if (messageBoxResult == MessageBoxResult.Yes)
@@ -437,6 +439,21 @@ namespace HotelManagementSystem
                             _bookingDetailRepository.DeleteBookingDetail(booking);
                             System.Windows.Forms.MessageBox.Show("Delete Success !");
                         }
+
+
+                        //Update total price in Booking Reservation
+                        BookingReservation bookingReservation = _bookingReservationRepository.GetReservationByBookingDetatail(booking);
+                        IEnumerable<BookingDetail> bookings = _bookingDetailRepository.GetALlBookingDetailInReservation(bookingReservation.BookingReservationId);
+                        bookingReservation.TotalPrice = 0;
+                        foreach (BookingDetail bookingDetail in bookings)
+                        {
+
+                            bookingReservation.TotalPrice += bookingDetail.ActualPrice;
+
+                        }
+
+                        _bookingReservationRepository.UpdateBookingReservation(bookingReservation);
+                        LoadListViewReservation();
                     }
                     else
                     {

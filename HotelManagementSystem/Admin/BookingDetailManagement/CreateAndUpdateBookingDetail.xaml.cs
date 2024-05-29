@@ -29,11 +29,13 @@ namespace HotelManagementSystem.Admin.BookingDetailManagement
         public BookingDetail bookingDetail { get; set; }
         public IBookingDetailRepository _bookingDetailRepository;
         public IBookingReservationRepository _bookingReservationRepository;
+        public IRoomInformationRepository _roomInformationRepository;
         public MainWindow mainWindow { get; set; }
         public CreateAndUpdateBookingDetail()
         {
             InitializeComponent();
             _bookingReservationRepository = new BookingReservationRepository();
+            _roomInformationRepository = new RoomInformationRepository();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -94,17 +96,33 @@ namespace HotelManagementSystem.Admin.BookingDetailManagement
 
                 if (isCreate)
                 {
-                    //Check if user change roomID, check this room is availble 
-                    //if (!ÍsRoomAvailbleInBooking(booking)) throw new Exception("This room is in use !");
+                    //Ccheck this room is availble 
+                    if (ÍsRoomAvailbleInBooking(booking)) throw new Exception("This room is in use !");
 
                     //Actual Price = price room* so ngay tu start to end
+                    var room = _roomInformationRepository.GetRoomInformationByRoomID(booking.RoomId);
+                    int totalDay = booking.EndDate.DayNumber - booking.StartDate.DayNumber + 1;
+                    booking.ActualPrice = totalDay * room.RoomPricePerDay;
+                    _bookingDetailRepository.CreateBookingDetail(booking);
 
-                    //_bookingReservationRepository.CreateBookingReservation(res);
-                    //System.Windows.Forms.MessageBox.Show("Create Success !", "Create", MessageBoxButtons.OK);
+                    //Update total price in Booking Reservation
+                    IEnumerable<BookingDetail> bookings = _bookingDetailRepository.GetALlBookingDetailInReservation(bookingReservation.BookingReservationId);
+                    bookingReservation.TotalPrice = 0;
+                    foreach (BookingDetail bookingDetail in bookings)
+                    {
+
+                        bookingReservation.TotalPrice += bookingDetail.ActualPrice;
+
+                    }
+                    _bookingReservationRepository.UpdateBookingReservation(bookingReservation);
+                    System.Windows.Forms.MessageBox.Show("Create Success !", "Create", MessageBoxButtons.OK);
                 }
                 else
                 {
-                    booking.ActualPrice = decimal.Parse(ActualPriceTextBox.Text);
+                    //Actual Price = price room* so ngay tu start to end
+                    var room = _roomInformationRepository.GetRoomInformationByRoomID(booking.RoomId);
+                    int totalDay = booking.EndDate.DayNumber - booking.StartDate.DayNumber + 1;
+                    booking.ActualPrice = totalDay * room.RoomPricePerDay;
                     _bookingDetailRepository.UpdateBookingDetail(booking);
 
                     
@@ -147,7 +165,8 @@ namespace HotelManagementSystem.Admin.BookingDetailManagement
                     if (bookingitem.EndDate < DateOnly.FromDateTime(DateTime.Now.Date)) return true;
                 }
             }
-            return true;
+            return false;
         }
+
     }
 }
