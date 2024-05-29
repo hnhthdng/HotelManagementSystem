@@ -54,6 +54,7 @@ namespace HotelManagementSystem
                 RoomTab.Visibility = Visibility.Collapsed;
                 ReportTab.Visibility = Visibility.Collapsed;
                 LoadProfileCustomer();
+                LoadBookingReservationProfile(customerInfo);
             }
         }
 
@@ -355,7 +356,7 @@ namespace HotelManagementSystem
                 listBookingDetail.ItemsSource = null;
                 listBookingDetail.ItemsSource = _bookingDetailRepository.GetALlBookingDetailInReservation(reservationID);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 System.Windows.Forms.MessageBox.Show(ex.Message);
 
@@ -378,7 +379,7 @@ namespace HotelManagementSystem
         {
             LoadListViewReport();
         }
-       
+
 
         private void FilterDateButton_Click(object sender, RoutedEventArgs e)
         {
@@ -403,7 +404,7 @@ namespace HotelManagementSystem
         #region Profile Method
         public void LoadProfileCustomer()
         {
-            if(customerInfo != null)
+            if (customerInfo != null)
             {
                 customerProfileIDTextBox.Text = customerInfo.CustomerId.ToString();
                 customerFullNameProfileTextBox.Text = customerInfo.CustomerFullName;
@@ -440,6 +441,56 @@ namespace HotelManagementSystem
             _customerRepository.Update(cus);
             customerInfo = cus;
             System.Windows.Forms.MessageBox.Show("Update Success !", "Update", MessageBoxButtons.OK);
+        }
+        #endregion
+
+        #region Booking Method
+        public void LoadBookingReservationProfile(Customer cus)
+        {
+            try
+            {
+                listBookingReservationCustomer.ItemsSource = null;
+                listBookingReservationCustomer.ItemsSource = _bookingReservationRepository.SearchReservationByCustomerID(cus.CustomerId);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+
+            }
+        }
+
+        #endregion
+
+        #region Booking Event Click
+        private void listBookingReservationCustomer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var list = new List<dynamic>();
+            try
+            {
+                dynamic selectedItem = listBookingReservationCustomer.SelectedItem;
+                var reservationID = selectedItem.BookingReservationId;
+                IEnumerable<BookingDetail> bookingDetails = _bookingDetailRepository.GetALlBookingDetailInReservation(reservationID);
+
+
+                foreach(BookingDetail b  in bookingDetails)
+                {
+                    list.Add(new
+                    {
+                        RoomNumber = _roomInformationRepository.GetRoomNumberFromBookingDetail(b),
+                        StartDate = b.StartDate,
+                        EndDate = b.EndDate,
+                        ActualPrice = b.ActualPrice,
+                    });
+                }
+
+                listBookingDetailCustomer.ItemsSource = null;
+                listBookingDetailCustomer.ItemsSource = list;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+
+            }
         }
         #endregion
 

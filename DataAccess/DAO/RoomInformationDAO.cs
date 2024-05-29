@@ -1,4 +1,5 @@
 ﻿using DataObject.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.DAO
 {
@@ -163,6 +164,14 @@ namespace DataAccess.DAO
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public string GetRoomNumberFromBookingDetail(BookingDetail booking)
+        {
+            using var context = new FuminiHotelManagementContext();
+            var _bookingDetail = context.RoomInformations.Include(b => b.BookingDetails).FirstOrDefault(c => c.RoomId == booking.RoomId);
+            string roomNumber = _bookingDetail.RoomNumber;
+            return roomNumber;
         }
     }
 }

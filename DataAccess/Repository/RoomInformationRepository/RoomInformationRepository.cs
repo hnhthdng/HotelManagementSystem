@@ -17,6 +17,8 @@ namespace DataAccess.Repository.RoomInformationRepository
 
         public IEnumerable<RoomInformation> GetRoomInformationByRoomNumber(string roomNumber) => RoomInformationDAO.Instance.GetRoomInformationByRoomNumber(roomNumber);
 
+        public string GetRoomNumberFromBookingDetail(BookingDetail booking) => RoomInformationDAO.Instance.GetRoomNumberFromBookingDetail(booking);
+
         public void UpdateRoomInformation(RoomInformation roomInformation) => RoomInformationDAO.Instance.UpdateRoomInformation(roomInformation);
     }
 }

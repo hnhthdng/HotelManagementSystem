@@ -274,7 +274,7 @@
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="1" >
                             <TextBlock HorizontalAlignment="Center" FontWeight="Bold" FontSize="20">Booking Details</TextBlock>
-                            <ListView  x:Name="listBookingDetail" Margin="10,0,0,0" Height="300" d:IsHidden="True">
+                            <ListView  x:Name="listBookingDetail" Margin="10,0,0,0" Height="300">
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Header="Room Id" Width="133" DisplayMemberBinding="{Binding Path=RoomId}" />
@@ -373,7 +373,39 @@
             </TabItem>
 
             <TabItem x:Name="BookingTab"  Header="Booking">
-                <Grid Background="#FFE5E5E5" />
+                <Grid Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" >
+                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold" FontSize="20">Room Reservation</TextBlock>
+                        <ListView  x:Name="listBookingReservationCustomer" Margin="10,0,10,0" Height="300" SelectionChanged="listBookingReservationCustomer_SelectionChanged" >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Booking Reservation Id" Width="200" DisplayMemberBinding="{Binding Path=BookingReservationId}" />
+                                    <GridViewColumn Header="Booking Date" Width="440" DisplayMemberBinding="{Binding Path=BookingDate}" />
+                                    <GridViewColumn Header="Total Price" Width="440 " DisplayMemberBinding="{Binding Path=TotalPrice}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" >
+                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold" FontSize="20">Booking Details</TextBlock>
+                        <ListView  x:Name="listBookingDetailCustomer" Margin="10,0,0,0" Height="300" >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Room Number" Width="270" DisplayMemberBinding="{Binding Path=RoomNumber}" />
+                                    <GridViewColumn Header="Start Date" Width="270" DisplayMemberBinding="{Binding Path=StartDate}" />
+                                    <GridViewColumn Header="EndDate" Width="270" DisplayMemberBinding="{Binding Path=EndDate}" />
+                                    <GridViewColumn Header="ActualPrice" Width="270" DisplayMemberBinding="{Binding Path=ActualPrice}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                    </StackPanel>
+
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

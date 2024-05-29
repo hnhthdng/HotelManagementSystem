@@ -16,5 +16,7 @@ namespace DataAccess.Repository.RoomInformationRepository
         void UpdateRoomInformation(RoomInformation roomInformation);
         void DeleteRoomInformationByID(int id);
         void CreateRoomInformation(RoomInformation roomInformation);
+        public string GetRoomNumberFromBookingDetail(BookingDetail booking);
+
     }
 }
