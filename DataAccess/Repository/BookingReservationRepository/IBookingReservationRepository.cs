@@ -10,5 +10,6 @@ namespace DataAccess.Repository.BookingReservationRepository
         void DeleteBookingReservationByID(int id);
         void CreateBookingReservation(BookingReservation bookingReservation);
         public IEnumerable<BookingReservation> GetAllBookingReservation();
+        public BookingReservation GetReservationByBookingDetatail(BookingDetail bookingDetail);
     }
 }

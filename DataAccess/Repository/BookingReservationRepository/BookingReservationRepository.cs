@@ -18,6 +18,8 @@ namespace DataAccess.Repository.BookingReservationRepository
 
         public BookingReservation GetBookingReservationByID(int id) => BookingReservationDAO.Instance.GetBookingReservationByID(id);
 
+        public BookingReservation GetReservationByBookingDetatail(BookingDetail bookingDetail) => BookingReservationDAO.Instance.GetReservationByBookingDetatail(bookingDetail);
+
         public IEnumerable<BookingReservation> SearchReservationByCustomerID(int customerID) => BookingReservationDAO.Instance.SearchReservationByCustomerID((int)customerID);
 
         public void UpdateBookingReservation(BookingReservation bookingReservation) => BookingReservationDAO.Instance.UpdateBookingReservation(bookingReservation);

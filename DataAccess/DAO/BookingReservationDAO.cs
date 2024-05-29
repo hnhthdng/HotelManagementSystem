@@ -1,4 +1,5 @@
 ﻿using DataObject.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,12 +73,14 @@ namespace DataAccess.DAO
         }
         public void UpdateBookingReservation(BookingReservation bookingReservation)
         {
-            BookingReservation _bookingReservation = GetBookingReservationByID(bookingReservation.BookingReservationId);
+           
             try
             {
-                if (_bookingReservation != null)
+                if (bookingReservation != null)
                 {
                     using var context = new FuminiHotelManagementContext();
+
+                    
                     context.BookingReservations.Update(bookingReservation);
                     context.SaveChanges();
                 }
@@ -129,6 +132,20 @@ namespace DataAccess.DAO
                 {
                     throw new Exception("The reservation is already exist!");
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public BookingReservation GetReservationByBookingDetatail(BookingDetail bookingDetail)
+        {
+            try
+            {
+                using var context = new FuminiHotelManagementContext();
+                var reservation = context.BookingReservations.Include(b => b.BookingDetails).FirstOrDefault(c => c.BookingReservationId == bookingDetail.BookingReservationId);
+                return reservation;
             }
             catch (Exception ex)
             {

@@ -25,9 +25,11 @@ namespace HotelManagementSystem.Admin.ReservationManagement
         {
             try
             {
+                DateTime? date = BooingDatePicker.SelectedDate;
+
                 BookingReservation res = new BookingReservation
                 {
-                    BookingDate = DateOnly.FromDateTime(BooingDatePicker.DisplayDate.Date),
+                    BookingDate = DateOnly.FromDateTime(date.Value),
                     TotalPrice = decimal.Parse(totalPriceTextBox.Text),
                     CustomerId = Int32.Parse(customerIDTextBox.Text),
                     BookingStatus = byte.Parse(reservationStatusTextBox.Text),
@@ -40,9 +42,10 @@ namespace HotelManagementSystem.Admin.ReservationManagement
                 else
                 {
                     res.BookingReservationId = reservation.BookingReservationId;
-                    _bookingReservationRepository.UpdateBookingReservation(res);
                     System.Windows.Forms.MessageBox.Show("Update Success !", "Update", MessageBoxButtons.OK);
                 }
+                _bookingReservationRepository.UpdateBookingReservation(res);
+
             }
             catch (Exception ex)
             {

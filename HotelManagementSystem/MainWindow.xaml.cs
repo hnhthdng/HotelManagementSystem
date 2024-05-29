@@ -4,6 +4,7 @@ using DataAccess.Repository.CustomerRepository;
 using DataAccess.Repository.RoomInformationRepository;
 using DataAccess.Repository.RoomTypeRepository;
 using DataObject.Models;
+using HotelManagementSystem.Admin.BookingDetailManagement;
 using HotelManagementSystem.Admin.CustomerManagement;
 using HotelManagementSystem.Admin.ReservationManagement;
 using HotelManagementSystem.Admin.RoomManagement;
@@ -155,7 +156,7 @@ namespace HotelManagementSystem
                 FilterByRoomTypeComboBox.Items.Add(r.RoomTypeId + ". " + r.RoomTypeName);
             }
         }
-        public bool IsPassEndDate(IEnumerable<BookingDetail> bookingDetails)
+        public bool IsListPassEndDate(IEnumerable<BookingDetail> bookingDetails)
         {
             var dateNow = DateOnly.FromDateTime(DateTime.Now);
 
@@ -227,7 +228,7 @@ namespace HotelManagementSystem
                 }
                 else
                 {
-                    if (!IsPassEndDate(booked))
+                    if (!IsListPassEndDate(booked))
                     {
                         System.Windows.Forms.MessageBox.Show("Delete Failed because this room is booked !");
                     }
@@ -275,6 +276,20 @@ namespace HotelManagementSystem
         {
             listBookingReservation.ItemsSource = null;
             listBookingReservation.ItemsSource = _bookingReservationRepository.GetAllBookingReservation();
+        }
+        public void LoadListBookingDetailByReservationID()
+        {
+            try
+            {
+                int reservationID = Int32.Parse(BookingReservationIdTextBox.Text);
+                listBookingDetail.ItemsSource = null;
+                listBookingDetail.ItemsSource = _bookingDetailRepository.GetALlBookingDetailInReservation(reservationID);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+
+            }
         }
         #endregion
 
@@ -360,6 +375,85 @@ namespace HotelManagementSystem
             {
                 System.Windows.Forms.MessageBox.Show(ex.Message);
 
+            }
+        }
+
+
+        //Booking Detail 
+        private void createBookingDetailButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreateAndUpdateBookingDetail createWindow = new CreateAndUpdateBookingDetail()
+            {
+                isCreate = true,
+                _bookingDetailRepository = this._bookingDetailRepository,
+                mainWindow = this
+            };
+            createWindow.Show();
+            createWindow.Closed += (s, args) => this.LoadListBookingDetailByReservationID();
+        }
+
+        private void updateBookingDetailButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (listBookingDetail.SelectedItems.Count > 0)
+            {
+                try
+                {
+                    BookingDetail booking = (BookingDetail)listBookingDetail.SelectedItems[0];
+                    CreateAndUpdateBookingDetail updateWindow = new CreateAndUpdateBookingDetail()
+                    {
+                        isCreate = false,
+                        bookingDetail = booking,
+                        _bookingDetailRepository = this._bookingDetailRepository,
+                        mainWindow = this
+                    };
+                    updateWindow.Show();
+                    updateWindow.Closed += (s, args) => this.LoadListBookingDetailByReservationID();
+                    updateWindow.Closed += (s, args) => this.LoadListViewReservation();
+
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.Forms.MessageBox.Show(ex.Message);
+                }
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Please select the booking you want to delete");
+            }
+
+        }
+
+        private void deleteBookingDetailButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(listBookingDetail.SelectedItems.Count > 0) {
+                try
+                {
+                    BookingDetail booking = (BookingDetail)listBookingDetail.SelectedItems[0];
+                    if(booking.EndDate < DateOnly.FromDateTime(DateTime.Now))
+                    {
+                        MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
+                        if (messageBoxResult == MessageBoxResult.Yes)
+                        {
+                            _bookingDetailRepository.DeleteBookingDetail(booking);
+                            System.Windows.Forms.MessageBox.Show("Delete Success !");
+                        }
+                    }
+                    else
+                    {
+                        System.Windows.Forms.MessageBox.Show("The room is in use !");
+
+                    }
+
+                    LoadListBookingDetailByReservationID();
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.Forms.MessageBox.Show(ex.Message);
+                }
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Please select the booking you want to delete");
             }
         }
 
@@ -494,6 +588,7 @@ namespace HotelManagementSystem
         }
         #endregion
 
+       
     }
 }
 

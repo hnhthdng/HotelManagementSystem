@@ -24,7 +24,7 @@
             </WrapPanel>
             <WrapPanel Margin="10,0,0,20">
                 <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed">Total Price:</TextBlock>
-                <TextBox x:Name="totalPriceTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+                <TextBox x:Name="totalPriceTextBox" FontFamily="Bahnschrift Condensed" FontSize="15" IsReadOnly="True"
              VerticalAlignment="Center" Width="270" HorizontalAlignment="Left" Margin="69,0,0,0"/>
             </WrapPanel>
             <WrapPanel Margin="10,0,0,20">

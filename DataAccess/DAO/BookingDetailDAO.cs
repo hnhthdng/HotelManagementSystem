@@ -43,6 +43,48 @@ namespace DataAccess.DAO
             return bookingDetails;
         }
 
+        public void CreateBookingDetail(BookingDetail bookingDetail)
+        {
+            try
+            {
+                using var context = new FuminiHotelManagementContext();
+                context.BookingDetails.Add(bookingDetail);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void UpdateBookingDetail(BookingDetail bookingDetail)
+        {
+            try
+            {
+                using var context = new FuminiHotelManagementContext();
+                context.BookingDetails.Update(bookingDetail);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void DeleteBookingDetail(BookingDetail bookingDetail)
+        {
+            try
+            {
+                using var context = new FuminiHotelManagementContext();
+                context.BookingDetails.Remove(bookingDetail);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
         public IEnumerable<BookingDetail> GetALlBookingDetailInReservation(int bookingReservationId)
         {
