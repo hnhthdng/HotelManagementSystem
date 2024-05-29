@@ -9,6 +9,7 @@ using HotelManagementSystem.Admin.ReservationManagement;
 using HotelManagementSystem.Admin.RoomManagement;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 
 namespace HotelManagementSystem
 {
@@ -52,6 +53,7 @@ namespace HotelManagementSystem
                 ReservationTab.Visibility = Visibility.Collapsed;
                 RoomTab.Visibility = Visibility.Collapsed;
                 ReportTab.Visibility = Visibility.Collapsed;
+                LoadProfileCustomer();
             }
         }
 
@@ -391,10 +393,54 @@ namespace HotelManagementSystem
             }
             catch
             {
-                MessageBox.Show("Please enter start date and end date");
+                System.Windows.Forms.MessageBox.Show("Please enter start date and end date");
             }
         }
 
+
+        #endregion
+
+        #region Profile Method
+        public void LoadProfileCustomer()
+        {
+            if(customerInfo != null)
+            {
+                customerProfileIDTextBox.Text = customerInfo.CustomerId.ToString();
+                customerFullNameProfileTextBox.Text = customerInfo.CustomerFullName;
+                telephoneProfileTextBox.Text = customerInfo.Telephone;
+                emailAddressProfileTextBox.Text = customerInfo.EmailAddress;
+                customerBirthdayProfileDatePicker.Text = customerInfo.CustomerBirthday.ToString();
+                customerStatusProfileTextBox.Text = customerInfo.CustomerStatus.ToString();
+                passwordProfileTextBox.Text = customerInfo.Password;
+            }
+        }
+        #endregion
+
+        #region Profile Event Click
+        private void refreshCustomerProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoadProfileCustomer();
+        }
+
+        private void updateCustomerProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime? birthday = customerBirthdayProfileDatePicker.SelectedDate;
+
+            Customer cus = new Customer
+            {
+                CustomerId = customerInfo.CustomerId,
+                CustomerFullName = customerFullNameProfileTextBox.Text,
+                Telephone = telephoneProfileTextBox.Text,
+                EmailAddress = emailAddressProfileTextBox.Text,
+                CustomerBirthday = DateOnly.FromDateTime(birthday.Value),
+                CustomerStatus = byte.Parse(customerStatusProfileTextBox.Text),
+                Password = passwordProfileTextBox.Text,
+            };
+
+            _customerRepository.Update(cus);
+            customerInfo = cus;
+            System.Windows.Forms.MessageBox.Show("Update Success !", "Update", MessageBoxButtons.OK);
+        }
         #endregion
 
     }

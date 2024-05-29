@@ -300,7 +300,7 @@
 
                     <StackPanel>
                         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,35,0,0">
-                            <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed" Margin="0,6,10,0" >Start Date: </TextBlock>
+                            <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed" Margin="0,6,10,0" >Start Date:</TextBlock>
                             <DatePicker x:Name="ReportStartDatePicker" ></DatePicker>
                         </WrapPanel>
                         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,11,0,0">
@@ -322,11 +322,54 @@
                         </ListView.View>
                     </ListView>
                 </Grid>
-                
+
             </TabItem>
 
             <TabItem x:Name="ProfileTab"  Header="Profile">
-                <Grid Background="#FFE5E5E5" />
+                <Grid Background="White">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <WrapPanel Visibility="Collapsed" >
+                                <TextBlock FontSize="15" >Customer ID:</TextBlock>
+                                <TextBox x:Name="customerProfileIDTextBox"/>
+                            </WrapPanel>
+                            <WrapPanel Margin="10,0,0,40">
+                                <TextBlock FontSize="15" Margin="0,0,0,0" FontFamily="Bahnschrift Condensed">Customer Full Name:</TextBlock>
+                                <TextBox x:Name="customerFullNameProfileTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+                     VerticalAlignment="Center" Width="270" HorizontalAlignment="Left"
+                     RenderTransformOrigin="0.608,0.584" Margin="9,0,0,0"/>
+                            </WrapPanel>
+                            <WrapPanel Margin="10,0,0,40">
+                                <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed">Telephone:</TextBlock>
+                                <TextBox x:Name="telephoneProfileTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+                     VerticalAlignment="Center" Width="270" HorizontalAlignment="Left" Margin="58,0,0,0"/>
+                            </WrapPanel>
+                            <WrapPanel Margin="10,0,0,40">
+                                <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed">Email Address:</TextBlock>
+                                <TextBox x:Name="emailAddressProfileTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+                     VerticalAlignment="Center" Width="270" HorizontalAlignment="Left" Margin="36,0,0,0"/>
+                            </WrapPanel>
+                            <WrapPanel Margin="10,0,0,40">
+                                <TextBlock FontSize="15"  FontFamily="Bahnschrift Condensed">Customer Birthday:</TextBlock>
+                                <DatePicker x:Name="customerBirthdayProfileDatePicker" FontFamily="Bahnschrift Condensed" FontSize="15"
+                     VerticalAlignment="Center" Width="270" HorizontalAlignment="Left" Margin="15,0,0,0"/>
+                            </WrapPanel>
+                            <WrapPanel Visibility="Collapsed" Margin="10,0,0,20">
+                                <TextBlock FontSize="15" FontFamily="Bahnschrift Condensed">Customer Status:</TextBlock>
+                                <TextBox x:Name="customerStatusProfileTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+                     VerticalAlignment="Center" Width="270"  HorizontalAlignment="Left" Margin="23,0,0,0"/>
+                            </WrapPanel>
+                            <WrapPanel Margin="10,0,0,10">
+                                <TextBlock FontSize="15"  FontFamily="Bahnschrift Condensed">Password:</TextBlock>
+                                <TextBox x:Name="passwordProfileTextBox" FontFamily="Bahnschrift Condensed" FontSize="15"
+                     VerticalAlignment="Center" Width="270" HorizontalAlignment="Left" Margin="58,0,0,0"/>
+                            </WrapPanel>
+                            <StackPanel Width="300" HorizontalAlignment="Center" Margin="0,30,0,0">
+                                <Button Content="Refresh" x:Name="refreshCustomerProfileButton" Height="30" Width="100" Margin="0,20,0,20" Click="refreshCustomerProfileButton_Click" />
+                                <Button Content="Save" x:Name="updateCustomerProfileButton" Height="30" Width="100" Margin="0,0,0,20" Click="updateCustomerProfileButton_Click" />
+                            </StackPanel>
+                    </StackPanel>
+                    
+                </Grid>
             </TabItem>
 
             <TabItem x:Name="BookingTab"  Header="Booking">
